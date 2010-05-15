@@ -2,8 +2,8 @@
 
 import pyglet
 from pyglet.window import key
-import player
-from player import *
+import objects
+from objects import *
 from vector import *
 
 window = pyglet.window.Window(fullscreen=True)
@@ -19,7 +19,7 @@ planet.sprite.scale = 0.66
 player1 = Player(1)
 player2 = Player(2)
 
-player.center = Point(window.width //2, window.height // 2)
+objects.center = Point(window.width //2, window.height // 2)
 
 @window.event
 def on_draw():
