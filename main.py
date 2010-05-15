@@ -3,7 +3,7 @@
 import pyglet
 from pyglet.window import key
 import player
-from player import Player, ObjectWithMass
+from player import *
 from vector import *
 
 window = pyglet.window.Window(fullscreen=True)
@@ -38,10 +38,17 @@ def on_key_release(sym, mod):
 	player2.on_release(sym,mod)
 
 def updatePhysics(dt):
+	OrbitPredictor.objects = []
 	for object in ObjectWithMass.objects:
 		object.gravity()
 	for object in ObjectWithMass.objects:
 		object.physics(dt)
+		OrbitPredictor(object)
+	for t in range(0, 10):
+		for o in OrbitPredictor.objects:
+			o.gravity()
+		for o in OrbitPredictor.objects:
+			o.physics(0.5)
 
 pyglet.clock.schedule_interval(updatePhysics, 0.02)
 

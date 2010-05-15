@@ -39,6 +39,33 @@ class ObjectWithMass(object):
 		self.v = self.v + self.dv * dt
 		self.pos += self.v * dt
 
+class OrbitPredictor(object):
+	objects = []
+	marks = []
+
+	def __init__(self, obj):
+		self.mass = obj.mass
+		self.pos = obj.pos
+		self.v = obj.v
+		OrbitPredictor.objects += [self]
+		self.otherObjects = None
+
+	def gravity(self):
+		if self.otherObjects == None:
+			self.otherObjects = OrbitPredictor.objects[:]
+			self.otherObjects.remove(self)
+		self.dv = Vector(0.0, 0.0)
+		for o in self.otherObjects:
+			vec = self.pos - o.pos
+			r = length(vec)
+			Fg = (G * self.mass * o.mass) / (r ** 2)
+			a = Fg / self.mass
+			self.dv += unit(vec) * -a
+	
+	def physics(self, dt):
+		self.v += self.v + self.dv * dt
+		self.pos += self.v * dt
+
 class Player(ObjectWithMass):
 	def __init__(self, player):
 		if player == 1:
