@@ -89,7 +89,6 @@ class Player(ObjectWithMass):
 			elif sym == key.D:
 				self.rot += 1.0
 
-
 	def on_release(self, sym, mod):
 		if self.player == 1:
 			if sym == key.UP:
@@ -105,8 +104,4 @@ class Player(ObjectWithMass):
 				self.rot += 1.0 
 			elif sym == key.D:
 				self.rot -= 1.0
-
-
-
-
 
