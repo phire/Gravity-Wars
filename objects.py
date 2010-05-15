@@ -54,26 +54,23 @@ class Player(ObjectWithMass):
 	def __init__(self, player):
 		if player == 1:
 			image = pyglet.resource.image('images/player1.png')
-			self.pos = Point(200.0, 0.0)
-			self.v = Vector(0.0, 75.0)
+			pos = Point(200.0, 0.0)
+			v = Vector(0.0, 75.0)
 			self.dir = 0.0
 		elif player == 2:
 			image = pyglet.resource.image('images/player2.png')
-			self.pos = Point(-200.0, 0.0)
-			self.v = Vector(0.0, -75.0)
+			pos = Point(-200.0, 0.0)
+			v = Vector(0.0, -75.0)
 			self.dir = 180.0
 		image.anchor_x = image.width // 2
 		image.anchor_y = image.height // 2
 
-		self.sprite = pyglet.sprite.Sprite(image)
-		self.mass = 50.0
-		ObjectWithMass.objects += [self]
-		self.dv = Vector(0.0, 0.0)
 		self.player = player
 		self.engine = False
 		self.rot = 0.0
 		self.thrust = 25.0
-		self.radius = 4
+		super(Player, self).__init__(pyglet.sprite.Sprite(image), 50.0, pos, v, 4)
+
 
 	def draw(self):
 		self.sprite.rotation = self.dir
