@@ -6,9 +6,11 @@ class Player():
 		if player == 1:
 			self.image = pyglet.resource.image('images/player1.png')
 			self.x = 200.0
+			self.v = (0.0, 50.0)
 		elif player == 2:
 			self.image = pyglet.resource.image('images/player2.png')
 			self.x = -200.0
+			self.v = (0.0, -50.0)
 		self.y = 0.0
 		self.sprite = pyglet.sprite.Sprite(self.image)
 	
@@ -16,5 +18,9 @@ class Player():
 		self.sprite.x = self.center[0] + int(self.x)
 		self.sprite.y = self.center[1] + int(self.y)
 		self.sprite.draw()
+	
+	def physics(self, dt):
+		self.x += self.v[0] * dt
+		self.y += self.v[1] * dt
 		
 

@@ -14,8 +14,6 @@ planet.y = window.height // 2 - planet.height // 2
 player1 = Player(1, window.width //2, window.height // 2)
 player2 = Player(2, window.width //2, window.height // 2)
 
-
-
 @window.event
 def on_draw():
 	window.clear()
@@ -25,9 +23,14 @@ def on_draw():
 
 @window.event
 def on_key_press(symbol, modifiers):
-	print symbol, modifiers
 	if symbol == key.ESCAPE:
 		pyglet.app.exit()
 
+def updatePhysics(dt):
+	player1.physics(dt)
+	player2.physics(dt)
+
+pyglet.clock.schedule_interval(updatePhysics, 0.02)
+	
 pyglet.app.run()
 
