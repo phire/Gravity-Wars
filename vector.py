@@ -27,7 +27,7 @@ class Vector():
 	def __init__(self, x, y=None):
 		if y == None:
 			self.dx = x[0]
-			self.dy = x[0]
+			self.dy = x[1]
 		else:
 			self.dx = x
 			self.dy = y

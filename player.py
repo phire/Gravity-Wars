@@ -68,7 +68,7 @@ class Player(ObjectWithMass):
 	def physics(self, dt):
 		super(Player, self).physics(dt)
 		if fabs(self.rot) > 0.1:
-			self.dir += self.rot * dt * 75.0
+			self.dir += self.rot * dt * 100.0
 		if self.engine:
 			self.v += vectorFromAngle(self.dir) * self.thrust * dt
 
