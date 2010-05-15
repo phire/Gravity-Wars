@@ -13,6 +13,8 @@ planet_image.anchor_y = planet_image.height // 2
 planet = ObjectWithMass(pyglet.sprite.Sprite(planet_image), 2.0 * 10**16, Point(0.0,0.0), Vector(0.0, 0.0), 60)
 planet.sprite.scale = 0.66
 
+stars = pyglet.resource.image('images/background.png')
+
 #moon = ObjectWithMass(pyglet.sprite.Sprite(planet_image), 1.0 * 10**14, Point(150.0, 150.0), Vector(-50.0, 50.0))
 #moon.sprite.scale = 0.15
 
@@ -24,6 +26,7 @@ objects.center = Point(window.width //2, window.height // 2)
 @window.event
 def on_draw():
 	window.clear()
+	stars.blit(0, 0)
 	planet.sprite.rotation += 0.1
 	for object in ObjectWithMass.objects:
 		object.draw()
