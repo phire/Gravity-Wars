@@ -11,17 +11,18 @@ class ObjectWithMass(object):
 	objects = []
 
 
-	def __init__(self, sprite, mass, initial_pos, initial_v):
+	def __init__(self, sprite, mass, initial_pos, initial_v, radius):
 		self.sprite = sprite
 		self.mass = mass
 		self.pos = initial_pos
 		self.v = initial_v
 		ObjectWithMass.objects += [self]
 		self.dv = Vector(0.0, 0.0)
+		self.radius = radius
 	
 	def draw(self):
-		self.sprite.x = center.x + int(self.pos.x) - self.sprite.width // 2
-		self.sprite.y = center.y + int(self.pos.y) - self.sprite.height // 2
+		self.sprite.x = center.x + int(self.pos.x)
+		self.sprite.y = center.y + int(self.pos.y)
 		self.sprite.draw()
 
 	def gravity(self):
@@ -38,20 +39,32 @@ class ObjectWithMass(object):
 	def physics(self, dt):
 		self.v = self.v + self.dv * dt
 		self.pos += self.v * dt
+	
+	def isColliding(self, other):
+		return length(self.pos - other.pos) < self.radius + other.radius
+
+	def collision(self, other):
+		pass
+
+	def delete(self):
+		ObjectWithMass.objects.remove(self)
 
 class Player(ObjectWithMass):
 	def __init__(self, player):
 		if player == 1:
-			self.image = pyglet.resource.image('images/player1.png')
+			image = pyglet.resource.image('images/player1.png')
 			self.pos = Point(200.0, 0.0)
 			self.v = Vector(0.0, 75.0)
 			self.dir = 0.0
 		elif player == 2:
-			self.image = pyglet.resource.image('images/player2.png')
+			image = pyglet.resource.image('images/player2.png')
 			self.pos = Point(-200.0, 0.0)
 			self.v = Vector(0.0, -75.0)
 			self.dir = 180.0
-		self.sprite = pyglet.sprite.Sprite(self.image)
+		image.anchor_x = image.width // 2
+		image.anchor_y = image.height // 2
+
+		self.sprite = pyglet.sprite.Sprite(image)
 		self.mass = 50.0
 		ObjectWithMass.objects += [self]
 		self.dv = Vector(0.0, 0.0)
@@ -59,6 +72,7 @@ class Player(ObjectWithMass):
 		self.engine = False
 		self.rot = 0.0
 		self.thrust = 25.0
+		self.radius = 4
 
 	def draw(self):
 		self.sprite.rotation = self.dir
@@ -72,6 +86,8 @@ class Player(ObjectWithMass):
 		if self.engine:
 			self.v += vectorFromAngle(self.dir) * self.thrust * dt
 
+	def collision(self, other):
+		self.delete()
 
 	def on_press(self, sym, mod):
 		if self.player == 1:
