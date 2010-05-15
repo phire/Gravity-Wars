@@ -3,7 +3,7 @@
 import pyglet
 from pyglet.window import key
 import player
-from player import Player, ObjectWithMass
+from player import *
 from vector import *
 
 window = pyglet.window.Window(fullscreen=True)
