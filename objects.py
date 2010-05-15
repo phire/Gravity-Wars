@@ -9,7 +9,7 @@ G = 6.667 * (10 ** -11) # Gravational constant
 
 class ObjectWithMass(object):	
 	objects = []
-
+	heavyObjects = []
 
 	def __init__(self, sprite, mass, initial_pos, initial_v, radius):
 		self.sprite = sprite
@@ -17,6 +17,8 @@ class ObjectWithMass(object):
 		self.pos = initial_pos
 		self.v = initial_v
 		ObjectWithMass.objects += [self]
+		if mass > 10 ** 10: # Lite objects aren't going to have a major effect on gravity
+			ObjectWithMass.heavyObjects += [self]
 		self.dv = Vector(0.0, 0.0)
 		self.radius = radius
 	
@@ -27,10 +29,10 @@ class ObjectWithMass(object):
 
 	def gravity(self):
 		self.dv = Vector(0.0, 0.0)
-		for o in ObjectWithMass.objects:
+		for o in ObjectWithMass.heavyObjects:
 			vec = self.pos - o.pos
 			r = length(vec)
-			if not r == 0.0: 
+			if not r == 0.0: # prevent devide by zero errors
 				Fg = (G * self.mass * o.mass) / (r ** 2)
 				a = Fg / self.mass
 				self.dv = self.dv + (unit(vec) * -a )
