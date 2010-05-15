@@ -7,12 +7,12 @@ from player import Player, ObjectWithMass
 from vector import *
 
 window = pyglet.window.Window(fullscreen=True)
-planet_image = pyglet.resource.image('images/planet18.png')
-planet = ObjectWithMass(pyglet.sprite.Sprite(planet_image), 2.2 * 10**16, Point(0.0,0.0), Vector(0.0, 0.0))
+planet_image = pyglet.resource.image('images/planet3.png')
+planet = ObjectWithMass(pyglet.sprite.Sprite(planet_image), 2.0 * 10**16, Point(0.0,0.0), Vector(0.0, 0.0))
 planet.sprite.scale = 0.7
 
-moon = ObjectWithMass(pyglet.sprite.Sprite(planet_image), 1.0 * 10**14, Point(150.0, 150.0), Vector(-50.0, 50.0))
-moon.sprite.scale = 0.15
+#moon = ObjectWithMass(pyglet.sprite.Sprite(planet_image), 1.0 * 10**14, Point(150.0, 150.0), Vector(-50.0, 50.0))
+#moon.sprite.scale = 0.15
 
 player1 = Player(1)
 player2 = Player(2)
