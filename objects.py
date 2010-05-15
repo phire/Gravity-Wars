@@ -26,15 +26,14 @@ class ObjectWithMass(object):
 		self.sprite.draw()
 
 	def gravity(self):
-		otherObjects = ObjectWithMass.objects[:]
-		otherObjects.remove(self)
 		self.dv = Vector(0.0, 0.0)
-		for o in otherObjects:
+		for o in ObjectWithMass.objects:
 			vec = self.pos - o.pos
 			r = length(vec)
-			Fg = (G * self.mass * o.mass) / (r ** 2)
-			a = Fg / self.mass
-			self.dv = self.dv + (unit(vec) * -a )
+			if not r == 0.0: 
+				Fg = (G * self.mass * o.mass) / (r ** 2)
+				a = Fg / self.mass
+				self.dv = self.dv + (unit(vec) * -a )
 
 	def physics(self, dt):
 		self.v = self.v + self.dv * dt
@@ -48,6 +47,8 @@ class ObjectWithMass(object):
 
 	def delete(self):
 		ObjectWithMass.objects.remove(self)
+
+import wepons # This needs to be done after ObjectsWithMass is defined
 
 class Player(ObjectWithMass):
 	def __init__(self, player):
@@ -87,6 +88,9 @@ class Player(ObjectWithMass):
 			self.v += vectorFromAngle(self.dir) * self.thrust * dt
 
 	def collision(self, other):
+		if hasattr(other, "activated"):
+			if not other.activated:
+				return
 		self.delete()
 
 	def on_press(self, sym, mod):
@@ -97,6 +101,8 @@ class Player(ObjectWithMass):
 				self.rot -= 1.0 
 			elif sym == key.RIGHT:
 				self.rot += 1.0
+			elif sym == key.DOWN:
+				wepons.Mine(self.pos, self.v)
 		else:
 			if sym == key.W:
 				self.engine = True
@@ -104,6 +110,8 @@ class Player(ObjectWithMass):
 				self.rot -= 1.0 
 			elif sym == key.D:
 				self.rot += 1.0
+			elif sym == key.S:
+				wepons.Mine(self.pos, self.v)
 
 	def on_release(self, sym, mod):
 		if self.player == 1:
