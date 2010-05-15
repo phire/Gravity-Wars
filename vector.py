@@ -1,4 +1,4 @@
-from math import sqrt
+from math import sqrt, cos, sin, radians
 
 class Point():
 	def __init__(self, x, y=None):
@@ -50,3 +50,7 @@ def length(v):
 
 def unit(v):
 	return v / length(v)
+
+def vectorFromAngle(a):
+	a = radians(a)
+	return Vector(sin(a), cos(a))

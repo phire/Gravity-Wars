@@ -11,6 +11,9 @@ planet_image = pyglet.resource.image('images/planet.png')
 planet = ObjectWithMass(pyglet.sprite.Sprite(planet_image), 2.0 * 10**16, Point(0.0,0.0), Vector(0.0, 0.0))
 planet.sprite.scale = 0.1
 
+moon = ObjectWithMass(pyglet.sprite.Sprite(planet_image), 1.0 * 10**14, Point(150.0, 150.0), Vector(-50.0, 50.0))
+moon.sprite.scale = 0.025
+
 player1 = Player(1)
 player2 = Player(2)
 
@@ -23,9 +26,16 @@ def on_draw():
 		object.draw()
 
 @window.event
-def on_key_press(symbol, modifiers):
-	if symbol == key.ESCAPE:
+def on_key_press(sym, mod):
+	if sym == key.ESCAPE:
 		pyglet.app.exit()
+	player1.on_press(sym, mod)
+	player2.on_press(sym, mod)
+
+@window.event
+def on_key_release(sym, mod):
+	player1.on_release(sym,mod)
+	player2.on_release(sym,mod)
 
 def updatePhysics(dt):
 	for object in ObjectWithMass.objects:
