@@ -2,24 +2,25 @@
 
 import pyglet
 from pyglet.window import key
-from player import Player
+import player
+from player import Player, ObjectWithMass
+from vector import *
 
 window = pyglet.window.Window(fullscreen=True)
 planet_image = pyglet.resource.image('images/planet.png')
-planet = pyglet.sprite.Sprite(planet_image)
-planet.scale = 0.1
-planet.x = window.width // 2 - planet.width // 2
-planet.y = window.height // 2 - planet.height // 2
+planet = ObjectWithMass(pyglet.sprite.Sprite(planet_image), 2.0 * 10**16, Point(0.0,0.0), Vector(0.0, 0.0))
+planet.sprite.scale = 0.1
 
-player1 = Player(1, window.width //2, window.height // 2)
-player2 = Player(2, window.width //2, window.height // 2)
+player1 = Player(1)
+player2 = Player(2)
+
+player.center = Point(window.width //2, window.height // 2)
 
 @window.event
 def on_draw():
 	window.clear()
-	planet.draw()
-	player1.draw()
-	player2.draw()
+	for object in ObjectWithMass.objects:
+		object.draw()
 
 @window.event
 def on_key_press(symbol, modifiers):
@@ -27,10 +28,12 @@ def on_key_press(symbol, modifiers):
 		pyglet.app.exit()
 
 def updatePhysics(dt):
-	player1.physics(dt)
-	player2.physics(dt)
+	for object in ObjectWithMass.objects:
+		object.gravity()
+	for object in ObjectWithMass.objects:
+		object.physics(dt)
 
 pyglet.clock.schedule_interval(updatePhysics, 0.02)
-	
+
 pyglet.app.run()
 
