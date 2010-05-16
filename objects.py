@@ -104,9 +104,9 @@ class Player(ObjectWithMass):
 			colour = (0, 138, 208)
 		else:
 			colour = (255, 32, 32)
-		for i in range(0, 50):
+		for i in range(0, 35):
 			v = self.v + Vector(random.gauss(0, 33), random.gauss(0, 33))
-			Partical(colour, random.gauss(10.2, 0.4), self.pos, v)
+			Partical(colour, 0, self.pos, v)
 		self.delete()
 
 	def on_press(self, sym, mod):
