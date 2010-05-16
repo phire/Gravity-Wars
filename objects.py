@@ -80,7 +80,7 @@ class Player(ObjectWithMass):
 		self.player = player
 		self.engine = False
 		self.rot = 0.0
-		self.thrust = 25.0
+		self.thrust = 75.0
 		super(Player, self).__init__(pyglet.sprite.Sprite(image), 50.0, pos, v, 4)
 
 
@@ -105,7 +105,7 @@ class Player(ObjectWithMass):
 		else:
 			colour = (255, 32, 32)
 		for i in range(0, 35):
-			v = self.v + Vector(random.gauss(0, 33), random.gauss(0, 33))
+			v = self.v + Vector(random.gauss(0, 20), random.gauss(0, 20))
 			Partical(colour, 0, self.pos, v)
 		self.delete()
 
