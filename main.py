@@ -10,7 +10,7 @@ window = pyglet.window.Window(fullscreen=True)
 planet_image = pyglet.resource.image('images/planet3.png')
 planet_image.anchor_x = planet_image.width // 2
 planet_image.anchor_y = planet_image.height // 2
-planet = ObjectWithMass(pyglet.sprite.Sprite(planet_image), 2.0 * 10**16, Point(0.0,0.0), Vector(0.0, 0.0), 60)
+planet = ObjectWithMass(pyglet.sprite.Sprite(planet_image), 2.0 * 10**16, Point(0.0,0.0), Vector(0.0, 0.0), 66)
 planet.sprite.scale = 0.66
 
 stars = pyglet.resource.image('images/background.png')
@@ -35,6 +35,8 @@ def on_draw():
 def on_key_press(sym, mod):
 	if sym == key.ESCAPE:
 		pyglet.app.exit()
+	elif sym == key.P:
+		pyglet.image.get_buffer_manager().get_color_buffer().save('screenshot.png')
 	player1.on_press(sym, mod)
 	player2.on_press(sym, mod)
 
@@ -50,8 +52,9 @@ def updatePhysics(dt):
 		object.physics(dt)
 	collisions = []
 	for obj1 in ObjectWithMass.objects:
-		otherObjects = ObjectWithMass.objects[:]
-		otherObjects.remove(obj1)
+		otherObjects = ObjectWithMass.collisionObjects[:]
+		if otherObjects.__contains__(obj1):
+			otherObjects.remove(obj1)
 		for obj2 in otherObjects:
 			if obj1.isColliding(obj2):
 				if not collisions.__contains__((obj2, obj1)):

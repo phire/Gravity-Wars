@@ -17,3 +17,7 @@ class Mine(objects.ObjectWithMass):
 
 	def activate(self):
 		self.activated = True
+
+	def collision(self, other):
+		if self.activated:
+			self.delete()

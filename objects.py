@@ -10,8 +10,9 @@ G = 6.667 * (10 ** -11) # Gravational constant
 class ObjectWithMass(object):	
 	objects = []
 	heavyObjects = []
+	collisionObjects = []
 
-	def __init__(self, sprite, mass, initial_pos, initial_v, radius):
+	def __init__(self, sprite, mass, initial_pos, initial_v, radius, collidable=True):
 		self.sprite = sprite
 		self.mass = mass
 		self.pos = initial_pos
@@ -21,6 +22,8 @@ class ObjectWithMass(object):
 			ObjectWithMass.heavyObjects += [self]
 		self.dv = Vector(0.0, 0.0)
 		self.radius = radius
+		if collidable:
+			ObjectWithMass.collisionObjects += [self]
 	
 	def draw(self):
 		self.sprite.x = center.x + int(self.pos.x)
@@ -48,9 +51,16 @@ class ObjectWithMass(object):
 		pass
 
 	def delete(self):
-		ObjectWithMass.objects.remove(self)
+		if ObjectWithMass.objects.__contains__(self):
+			ObjectWithMass.objects.remove(self)
+		if ObjectWithMass.heavyObjects.__contains__(self):
+			ObjectWithMass.heavyObjects.remove(self)
+		if ObjectWithMass.collisionObjects.__contains__(self):
+			ObjectWithMass.collisionObjects.remove(self)
 
 import wepons # This needs to be done after ObjectsWithMass is defined
+from partical import Partical
+import random
 
 class Player(ObjectWithMass):
 	def __init__(self, player):
@@ -90,6 +100,13 @@ class Player(ObjectWithMass):
 		if hasattr(other, "activated"):
 			if not other.activated:
 				return
+		if self.player == 1:
+			colour = (0, 138, 208)
+		else:
+			colour = (255, 32, 32)
+		for i in range(0, 50):
+			v = self.v + Vector(random.gauss(0, 33), random.gauss(0, 33))
+			Partical(colour, random.gauss(10.2, 0.4), self.pos, v)
 		self.delete()
 
 	def on_press(self, sym, mod):
