@@ -12,7 +12,7 @@ class Point():
 	def __sub__(self, other):
 		if isinstance(other, Point):
 			return Vector(self.x - other.x, self.y - other.y)
-		elif isInstance(other, Vector):
+		elif isinstance(other, Vector):
 			return Point(self.x - other.dx, self.y - other.dy)
 		else:
 			return NotImplemented
@@ -43,6 +43,9 @@ class Vector():
 
 	def __add__(self, other):
 		return Vector(self.dx + other.dx, self.dy + other.dy)
+
+	def __neg__(self):
+		return Vector(-self.dx, -self.dy)
 
 
 def length(v):

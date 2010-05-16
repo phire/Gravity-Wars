@@ -25,3 +25,4 @@ class Partical(objects.ObjectWithMass):
 	
 	def destroy(self):
 		self.delete()
+

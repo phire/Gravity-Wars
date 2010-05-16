@@ -1,7 +1,7 @@
 import pyglet
 from pyglet.window import key
 from vector import *
-from math import fabs
+from math import fabs, fmod
 
 center = Point(0, 0) 
 
@@ -92,14 +92,21 @@ class Player(ObjectWithMass):
 	def physics(self, dt):
 		super(Player, self).physics(dt)
 		if fabs(self.rot) > 0.1:
-			self.dir += self.rot * dt * 100.0
+			self.dir += self.rot * dt * 300.0
 		if self.engine:
+			v = self.v
 			self.v += vectorFromAngle(self.dir) * self.thrust * dt
+			colour = (255, random.randint(0, 255), 0)
+			pos = self.pos - vectorFromAngle(self.dir) * 8
+			v = v + -vectorFromAngle(self.dir + random.gauss(0, 30)) * 20
+			Partical(colour, 0.5, pos, v)
 
 	def collision(self, other):
 		if hasattr(other, "activated"):
 			if not other.activated:
 				return
+		if isinstance(other, Partical):
+			return
 		if self.player == 1:
 			colour = (0, 138, 208)
 		else:
